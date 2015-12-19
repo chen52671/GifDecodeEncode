@@ -5,7 +5,9 @@ import java.io.InputStream;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
-import android.util.Log;
+
+import chen.zheng.gifdecodeencode.Utils.BitmapUtils;
+import chen.zheng.gifdecodeencode.encode.GifEncoder;
 
 
 public class GifDecoder extends Thread {
@@ -26,6 +28,12 @@ public class GifDecoder extends Thread {
      * 状态：解码成功
      */
     public static final int STATUS_FINISH = -1;
+    private String mOutputFilePath;
+    private GifEncoder mGifEncoder;
+    private int mFrame;
+    private float mQulity;
+    private float mScale;
+    private boolean mShouldCovert = false;
 
     private InputStream in;
     private int status;
@@ -85,6 +93,8 @@ public class GifDecoder extends Thread {
 
 
     private byte[] gifData = null;
+    private int mFrameCount = 0;
+    private int mDelay = 0;
 
 
     public GifDecoder(byte[] data, GifAction act) {
@@ -97,9 +107,23 @@ public class GifDecoder extends Thread {
         action = act;
     }
 
+    /*decode the gif and covert it to a smaller one*/
+    public GifDecoder(InputStream is, GifAction act, float scale, float quality, int frame, String newFilePath) {
+        mShouldCovert = true;
+        mScale = scale;
+        mQulity = quality;
+        mFrame = frame;
+        mOutputFilePath = newFilePath;
+        mGifEncoder = new GifEncoder();
+        in = is;
+        action = act;
+    }
 
     public void run() {
         if (in != null) {
+            if (mShouldCovert && mGifEncoder != null && mOutputFilePath != null) {
+                mGifEncoder.start(mOutputFilePath);
+            }
             readStream();
         } else if (gifData != null) {
             readByte();
@@ -380,6 +404,7 @@ public class GifDecoder extends Thread {
                 } else {
                     status = STATUS_FINISH;
                     action.parseOk(true, -1);
+                    mGifEncoder.finish();
                 }
             }
             try {
@@ -628,6 +653,7 @@ public class GifDecoder extends Thread {
         }
         transparency = (packed & 1) != 0;
         delay = readShort() * 10; // delay in milliseconds
+        mDelay += delay;
         transIndex = read(); // transparent color index
         read(); // block terminator
     }
@@ -706,6 +732,18 @@ public class GifDecoder extends Thread {
         }
         resetFrame();
         action.parseOk(true, frameCount);
+        /*根据质量和大小修改image,根据frame修改delay*/
+        mFrameCount++;
+        if (mFrame == mFrameCount) { //该帧进行编码
+            /*将这个耗时操作，放在一个Callable在线程池中执行
+            * 所有decode结束后，去获取每个callable结果，然后再*/
+            mGifEncoder.setDelay(mDelay);
+            image = BitmapUtils.scaledBitmap(image, mScale);
+            image = BitmapUtils.compressBitmapQuality(image, mQulity);
+            mGifEncoder.addFrame(image);
+            mFrameCount = 0;
+            mDelay = 0;
+        }
     }
 
     private void readLSD() {
