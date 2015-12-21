@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">GifDecodeEncode</string>
+    <string name="choose_a_gif">Choose a GIF</string>
+    <string name="choose_gif_toast">Please choose a gif file</string>
+    <string name="file_path">File path:</string>
+    <string name="file_size">File size:</string>
+    <string name="image_size">Image size:</string>
+    <string name="image_frame_count">Frame count:</string>
+    <string name="image_time">Duration:</string>
+    <string name="convert">Convert</string>
 </resources>

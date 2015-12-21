@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="chen.zheng.gifdecodeencode.ConvertTestActivity">
+
+    <TextView
+        android:id="@+id/file_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="file path" />
+
+    <Button
+        android:id="@+id/choose_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose a GIF" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/decode_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Decode" />
+
+        <Button
+            android:id="@+id/encode_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Encode" />
+
+    </LinearLayout>
+    <!--缩放比例-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/sacle_param"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Scale" />
+
+        <EditText
+            android:id="@+id/scale_et"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(0.1-1.0)" />
+    </LinearLayout>
+
+    <!--图片质量quality，大于1的整数-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/quality_param"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quality" />
+
+        <EditText
+            android:id="@+id/quality_et"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(0.1-1.0)" />
+    </LinearLayout>
+
+    <!--采帧率，大于1的整数-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/frame_param"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sample Frame" />
+
+        <EditText
+            android:id="@+id/frame_et"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(Integer >=1)" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/convert_button"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Convert" />
+</LinearLayout>

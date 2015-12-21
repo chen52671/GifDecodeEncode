@@ -1,123 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="chen.zheng.gifdecodeencode.MainActivity">
 
-    <TextView
-        android:id="@+id/file_path"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="file path" />
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/big_gif_image"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/big_gif" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/big_gif_image"
+            android:text="=>" />
+
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/small_gif" />
+    </RelativeLayout>
 
     <Button
-        android:id="@+id/choose_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Choose a GIF" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/decode_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Decode" />
-
-        <Button
-            android:id="@+id/encode_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Encode" />
-
-    </LinearLayout>
-    <!--缩放比例-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/sacle_param"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Scale" />
-
-        <EditText
-            android:id="@+id/scale_et"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="(0.1-1.0)" />
-    </LinearLayout>
-
-    <!--图片质量quality，大于1的整数-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/quality_param"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quality" />
-
-        <EditText
-            android:id="@+id/quality_et"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="(0.1-1.0)" />
-    </LinearLayout>
-
-    <!--采帧率，大于1的整数-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/frame_param"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sample Frame" />
-
-        <EditText
-            android:id="@+id/frame_et"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="(Integer >=1)" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/convert_button"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Convert" />
-</LinearLayout>
+        android:id="@+id/gif_choose_button"
+        android:layout_width="150dp"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:background="@color/mediumturquoise"
+        android:text="@string/choose_a_gif"
+        android:textColor="@color/white"
+        android:textSize="15sp"/>
+    <!--android:background="@drawable/bg_anim"-->
+</RelativeLayout>

@@ -735,8 +735,8 @@ public class GifDecoder extends Thread {
         /*根据质量和大小修改image,根据frame修改delay*/
         mFrameCount++;
         if (mFrame == mFrameCount) { //该帧进行编码
-            /*将这个耗时操作，放在一个Callable在线程池中执行
-            * 所有decode结束后，去获取每个callable结果，然后再*/
+            /*将编码试图放在多线程中去做，Callable
+            * 最后再将及结果组合*/
             mGifEncoder.setDelay(mDelay);
             image = BitmapUtils.scaledBitmap(image, mScale);
             image = BitmapUtils.compressBitmapQuality(image, mQulity);

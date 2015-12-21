@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="chen.zheng.gifdecodeencode.ConvertSettingActivity">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/local_gif"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/big_gif" />
+
+    <LinearLayout
+        android:id="@+id/local_info_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/local_gif"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/gif_info_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/file_path_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/file_path" />
+
+            <TextView
+                android:id="@+id/file_path"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/file_size_containder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/file_size" />
+
+            <TextView
+                android:id="@+id/file_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="@string/image_time" />
+
+            <TextView
+                android:id="@+id/image_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/image_size_containder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/image_size" />
+
+            <TextView
+                android:id="@+id/image_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="@string/image_frame_count" />
+
+            <TextView
+                android:id="@+id/image_frame_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/convert_param_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/local_info_container"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/gif_info_bg"
+        android:orientation="vertical">
+
+
+
+        <Button
+            android:id="@+id/gif_choose_button"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:background="@color/mediumturquoise"
+            android:text="@string/convert"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,10 +1,15 @@
 package chen.zheng.gifdecodeencode.Utils;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.MediaStore;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 /**
  * Created by ChenZheng on 2015/12/19.
@@ -114,6 +119,41 @@ public class CommonUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    public static String getFilePathFromURI(Context context, Uri contentUri) {
+
+        String filePath = contentUri.toString();
+        if (filePath.startsWith("file://")) {
+            try {
+                filePath = URLDecoder.decode(filePath, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            return filePath.substring(7);
+        } else if (filePath.startsWith("content://")) {
+            Cursor cursor = null;
+            try {
+                String[] project = {MediaStore.Images.Media.DATA};
+                cursor = context.getContentResolver().query(contentUri, project, null,
+                        null, null);
+                if (cursor != null) {
+                    int idxFilePath = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    if (idxFilePath != -1) {
+                        cursor.moveToFirst();
+                        return cursor.getString(idxFilePath);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        }
+
         return null;
     }
 }
