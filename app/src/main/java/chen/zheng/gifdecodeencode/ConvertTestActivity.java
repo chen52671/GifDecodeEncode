@@ -1,5 +1,6 @@
 package chen.zheng.gifdecodeencode;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,7 +28,7 @@ import chen.zheng.gifdecodeencode.Utils.ToastUtils;
 import chen.zheng.gifdecodeencode.decode.GifAction;
 import chen.zheng.gifdecodeencode.decode.GifDecoder;
 
-public class ConvertTestActivity extends AppCompatActivity  implements GifAction {
+public class ConvertTestActivity extends Activity implements GifAction {
     private static final int GIF_FILE_PATH = 1;
     private static final int REQUEST_CODE_GET_FILE = 11;
     private TextView mFilePathTv;

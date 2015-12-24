@@ -1,11 +1,18 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">GifDecodeEncode</string>
     <string name="choose_a_gif">Choose a GIF</string>
     <string name="choose_gif_toast">Please choose a gif file</string>
     <string name="file_path">File path:</string>
     <string name="file_size">File size:</string>
-    <string name="image_size">Image size:</string>
-    <string name="image_frame_count">Frame count:</string>
-    <string name="image_time">Duration:</string>
+    <string name="image_size">Image size: </string>
+    <string name="image_frame_count">Frame count: </string>
+    <string name="image_time">Duration: </string>
     <string name="convert">Convert</string>
+    <string name="image_quality">Image Quality: </string>
+    <string name="image_frame">Frame Sample: </string>
+
+    <string name="bytes" msgid="874874279846496468"><xliff:g id="COUNT">%s</xliff:g> B</string>
+    <string name="kilobytes" msgid="9191949758901349712"><xliff:g id="COUNT">%s</xliff:g> KB</string>
+    <string name="megabytes" msgid="130431176022837380"><xliff:g id="COUNT">%s</xliff:g> MB</string>
+
 </resources>

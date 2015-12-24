@@ -1,6 +1,7 @@
 package chen.zheng.gifdecodeencode;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ import chen.zheng.gifdecodeencode.Utils.LogUtils;
 import chen.zheng.gifdecodeencode.Utils.ToastUtils;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private static final int REQUEST_CODE_GET_FILE = 11;
     private Button mGifChooseButton;

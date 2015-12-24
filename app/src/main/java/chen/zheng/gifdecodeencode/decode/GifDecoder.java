@@ -28,6 +28,7 @@ public class GifDecoder extends Thread {
      * 状态：解码成功
      */
     public static final int STATUS_FINISH = -1;
+    private GifParseCallback mParseCallback;
     private String mOutputFilePath;
     private GifEncoder mGifEncoder;
     private int mFrame;
@@ -107,6 +108,11 @@ public class GifDecoder extends Thread {
         action = act;
     }
 
+    public GifDecoder(InputStream is, GifParseCallback callback) {
+        in = is;
+        mParseCallback = callback;
+    }
+
     /*decode the gif and covert it to a smaller one*/
     public GifDecoder(InputStream is, GifAction act, float scale, float quality, int frame, String newFilePath) {
         mShouldCovert = true;
@@ -121,12 +127,42 @@ public class GifDecoder extends Thread {
 
     public void run() {
         if (in != null) {
-            if (mShouldCovert && mGifEncoder != null && mOutputFilePath != null) {
-                mGifEncoder.start(mOutputFilePath);
+            if (mParseCallback != null) { //仅仅解析GIF信息
+                parseGif();
+            } else {
+                if (mShouldCovert && mGifEncoder != null && mOutputFilePath != null) { //开始编码新的输出文件
+                    mGifEncoder.start(mOutputFilePath);
+                }
+                readStream();//将GIF解码为Bitmap
             }
-            readStream();
         } else if (gifData != null) {
             readByte();
+        }
+    }
+
+    private void parseGif() {
+        init();
+        if (in != null) {
+            readHeader();
+            if (!err()) {
+                readContents(true);
+                if (frameCount < 0) {
+                    status = STATUS_FORMAT_ERROR;
+                    mParseCallback.onParseFinish(false, 0, 0, 0, 0);
+                } else {
+                    status = STATUS_FINISH;
+                    mParseCallback.onParseFinish(true, mDelay, width, height, mFrameCount);
+                }
+            }
+            try {
+                in.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            status = STATUS_OPEN_ERROR;
+            mParseCallback.onParseFinish(false, 0, 0, 0, 0);
         }
     }
 
@@ -397,7 +433,7 @@ public class GifDecoder extends Thread {
         if (in != null) {
             readHeader();
             if (!err()) {
-                readContents();
+                readContents(false);
                 if (frameCount < 0) {
                     status = STATUS_FORMAT_ERROR;
                     action.parseOk(false, -1);
@@ -602,14 +638,18 @@ public class GifDecoder extends Thread {
         return tab;
     }
 
-    private void readContents() {
+    private void readContents(boolean parseOnly) {
         // read GIF file content blocks
         boolean done = false;
         while (!(done || err())) {
             int code = read();
             switch (code) {
                 case 0x2C: // image separator
-                    readImage();
+                    if (parseOnly) {
+                        parseImage();
+                    } else {
+                        readImage();
+                    }
                     break;
                 case 0x21: // extension
                     code = read();
@@ -642,6 +682,68 @@ public class GifDecoder extends Thread {
                     status = STATUS_FORMAT_ERROR;
             }
         }
+    }
+
+    private void parseImage() {
+        ix = readShort(); // (sub)image position & size
+        iy = readShort();
+        iw = readShort();
+        ih = readShort();
+        int packed = read();
+        lctFlag = (packed & 0x80) != 0; // 1 - local color table flag
+        interlace = (packed & 0x40) != 0; // 2 - interlace flag
+        // 3 - sort flag
+        // 4-5 - reserved
+        lctSize = 2 << (packed & 7); // 6-8 - local color table size
+        if (lctFlag) {
+            lct = readColorTable(lctSize); // read table
+            act = lct; // make local table active
+        } else {
+            act = gct; // make global table active
+            if (bgIndex == transIndex) {
+                bgColor = 0;
+            }
+        }
+        int save = 0;
+        if (transparency) {
+            save = act[transIndex];
+            act[transIndex] = 0; // set transparent color if specified
+        }
+        if (act == null) {
+            status = STATUS_FORMAT_ERROR; // no color table defined
+        }
+        if (err()) {
+            return;
+        }
+        decodeImageData(); // decode pixel data
+        skip();
+        if (err()) {
+            return;
+        }
+        frameCount++;
+        // create new image to receive frame data
+       // image = Bitmap.createBitmap(width, height, Config.ARGB_4444);
+        // createImage(width, height);
+       // setPixels(); // transfer pixel data to image
+/*        if (gifFrame == null) {
+            gifFrame = new GifFrame(image, delay);
+            currentFrame = gifFrame;
+        } else {
+            GifFrame f = gifFrame;
+            while (f.nextFrame != null) {
+                f = f.nextFrame;
+            }
+            f.nextFrame = new GifFrame(image, delay);
+        }*/
+        // frames.addElement(new GifFrame(image, delay)); // add image to frame
+        // list
+        if (transparency) {
+            act[transIndex] = save;
+        }
+        resetFrame();
+        /*根据质量和大小修改image,根据frame修改delay*/
+        mFrameCount++;
+
     }
 
     private void readGraphicControlExt() {

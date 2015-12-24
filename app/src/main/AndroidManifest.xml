@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ConvertTestActivity" />
-        <activity android:name=".ConvertSettingActivity"></activity>
+        <activity android:name=".ConvertSettingActivity" />
+        <activity android:name=".ConvertProgressActivity"></activity>
     </application>
 
 </manifest>

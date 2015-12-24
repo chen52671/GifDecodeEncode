@@ -5,16 +5,25 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.RoundingMode;
 import java.net.URLDecoder;
+import java.text.DecimalFormat;
+
+import chen.zheng.gifdecodeencode.R;
 
 /**
  * Created by ChenZheng on 2015/12/19.
  */
 public class CommonUtils {
+    private static final int KILO = 1024;
+    private static final int MEGA = KILO * KILO;
+
+
     public static Intent getImageFileIntent(File file) {
         Intent intent = new Intent("android.intent.action.VIEW");
         intent.addCategory("android.intent.category.DEFAULT");
@@ -155,5 +164,33 @@ public class CommonUtils {
         }
 
         return null;
+    }
+
+    public static String getFileSize(Context context,String filePath){
+        if(context!=null && !TextUtils.isEmpty(filePath)){
+            File f= new File(filePath);
+            if (f.exists() && f.isFile()){
+                return convertToHumanReadableSize(context,f.length());
+            }
+        }
+        return null;
+    }
+    public static String convertToHumanReadableSize(Context context, long size) {
+
+        // liutz,对于KB采用非小数方式显示，MB，GB采用两位小数方式显示
+        DecimalFormat df = new DecimalFormat("#.00");
+        // liutz,采用四舍五入方式舍入\r 80
+        df.setRoundingMode(RoundingMode.HALF_UP);
+        if (size < KILO) {
+            return context.getString(R.string.bytes, size);
+        } else if (size < MEGA) {
+            df = new DecimalFormat("#");
+            df.setRoundingMode(RoundingMode.HALF_UP);
+            return context.getString(R.string.kilobytes,
+                    df.format((double) size / KILO));
+        } else {
+            return context.getString(R.string.megabytes,
+                    df.format((double) size / MEGA));
+        }
     }
 }

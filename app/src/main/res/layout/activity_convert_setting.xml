@@ -14,8 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/big_gif" />
+        android:layout_centerHorizontal="true" />
 
     <LinearLayout
         android:id="@+id/local_info_container"
@@ -110,16 +109,68 @@
         android:background="@drawable/gif_info_bg"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/image_size_tv"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/image_size" />
 
+        <SeekBar
+            android:id="@+id/image_size_bar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:maxHeight="4.0dip"
+            android:minHeight="4.0dip"
+            android:paddingLeft="16.0dip"
+            android:paddingRight="16.0dip"
+            android:progressDrawable="@drawable/po_seekbar"
+            android:thumb="@drawable/seekbar_thumb" />
+        <TextView
+            android:id="@+id/image_quality_tv"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/image_quality" />
 
+        <SeekBar
+            android:id="@+id/image_quality_bar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:maxHeight="4.0dip"
+            android:minHeight="4.0dip"
+            android:paddingLeft="16.0dip"
+            android:paddingRight="16.0dip"
+            android:progressDrawable="@drawable/po_seekbar"
+            android:thumb="@drawable/seekbar_thumb" />
+        <TextView
+            android:id="@+id/image_frame_tv"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/image_frame" />
+
+        <SeekBar
+            android:id="@+id/image_frame_bar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:maxHeight="4.0dip"
+            android:minHeight="4.0dip"
+            android:paddingLeft="16.0dip"
+            android:paddingRight="16.0dip"
+            android:progressDrawable="@drawable/po_seekbar"
+            android:thumb="@drawable/seekbar_thumb" />
         <Button
-            android:id="@+id/gif_choose_button"
-            android:layout_gravity="center_horizontal"
+            android:id="@+id/gif_convert_button"
             android:layout_width="120dp"
             android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
             android:background="@color/mediumturquoise"
             android:text="@string/convert"
             android:textColor="@color/white"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
     </LinearLayout>
 </RelativeLayout>
