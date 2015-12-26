@@ -17,11 +17,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets.main {
+        jniLibs.srcDir 'libs'
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile files('libs/com.umeng.message.lib_v2.6.0.jar')
+    compile files('libs/umeng-update-v2.6.0.1.jar')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
+    compile 'com.umeng.analytics:analytics:latest.integration'
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -153,8 +154,6 @@ public class ConvertTestActivity extends Activity implements GifAction {
     }
 
 
-
-
     private void decodeFile(String filePath) {
         if (!TextUtils.isEmpty(filePath)) {
             File gifFile = new File(filePath);
@@ -172,7 +171,7 @@ public class ConvertTestActivity extends Activity implements GifAction {
     }
 
     @Override
-    public void parseOk(boolean parseStatus, int frameIndex) {
+    public void parseOk(boolean parseStatus, int frameIndex, Bitmap bitmap) {
         if (frameIndex == -1) {
             ToastUtils.showToast(this, parseStatus ? "Decode done" : "Decode Fail");
         }

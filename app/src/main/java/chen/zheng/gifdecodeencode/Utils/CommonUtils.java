@@ -166,7 +166,17 @@ public class CommonUtils {
         return null;
     }
 
-    public static String getFileSize(Context context,String filePath){
+    public static long getFileSize(Context context,String filePath){
+        if(context!=null && !TextUtils.isEmpty(filePath)){
+            File f= new File(filePath);
+            if (f.exists() && f.isFile()){
+                return f.length();
+            }
+        }
+        return -1l;
+    }
+
+    public static String getReadableFileSize(Context context, String filePath){
         if(context!=null && !TextUtils.isEmpty(filePath)){
             File f= new File(filePath);
             if (f.exists() && f.isFile()){
@@ -192,5 +202,21 @@ public class CommonUtils {
             return context.getString(R.string.megabytes,
                     df.format((double) size / MEGA));
         }
+    }
+    /**
+     * 删除单个文件
+     *
+     * @param sPath 被删除文件的文件名
+     * @return 单个文件删除成功返回true，否则返回false
+     */
+    public static boolean deleteFile(String sPath) {
+        boolean flag = false;
+        File file = new File(sPath);
+        // 路径为文件且不为空则进行删除
+        if (file.isFile() && file.exists()) {
+            file.delete();
+            flag = true;
+        }
+        return flag;
     }
 }

@@ -248,7 +248,7 @@ public class GifView extends View implements GifAction {
         }
     }
 
-    public void parseOk(boolean parseStatus, int frameIndex) {
+    public void parseOk(boolean parseStatus, int frameIndex,Bitmap bitmap) {
         if (parseStatus) {
             if (gifDecoder != null) {
                 switch (animationType) {

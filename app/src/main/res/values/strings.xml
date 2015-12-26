@@ -1,5 +1,5 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">GifDecodeEncode</string>
+    <string name="app_name">Gif Compressor</string>
     <string name="choose_a_gif">Choose a GIF</string>
     <string name="choose_gif_toast">Please choose a gif file</string>
     <string name="file_path">File path:</string>
@@ -11,8 +11,15 @@
     <string name="image_quality">Image Quality: </string>
     <string name="image_frame">Frame Sample: </string>
 
-    <string name="bytes" msgid="874874279846496468"><xliff:g id="COUNT">%s</xliff:g> B</string>
-    <string name="kilobytes" msgid="9191949758901349712"><xliff:g id="COUNT">%s</xliff:g> KB</string>
-    <string name="megabytes" msgid="130431176022837380"><xliff:g id="COUNT">%s</xliff:g> MB</string>
+    <string name="bytes"><xliff:g id="COUNT">%s</xliff:g> B</string>
+    <string name="kilobytes"><xliff:g id="COUNT">%s</xliff:g> KB</string>
+    <string name="megabytes"><xliff:g id="COUNT">%s</xliff:g> MB</string>
+    <string name="cancel">Cancel</string>
+    <string name="decode_done">Decode done</string>
+    <string name="decode_fail">Decode Fail</string>
+    <string name="after_convert">After Converted</string>
+    <string name="reconvert">Reconvert</string>
+    <string name="saved_path">Saved Path:</string>
+    <string name="saved_size">Final Size:</string>
 
 </resources>

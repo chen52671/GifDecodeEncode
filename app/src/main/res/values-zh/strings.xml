@@ -1,0 +1,25 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">GIF压缩助手</string>
+    <string name="choose_a_gif">选择GIF</string>
+    <string name="choose_gif_toast">请选择一个GIF文件</string>
+    <string name="file_path">文件路径:</string>
+    <string name="file_size">文件大小:</string>
+    <string name="image_size">图像尺寸:</string>
+    <string name="image_frame_count">帧数:</string>
+    <string name="image_time">时长:</string>
+    <string name="convert">压缩</string>
+    <string name="image_quality">图像质量:</string>
+    <string name="image_frame">帧采样间隔:</string>
+
+    <string name="bytes"><xliff:g id="COUNT">%s</xliff:g> B</string>
+    <string name="kilobytes"><xliff:g id="COUNT">%s</xliff:g> KB</string>
+    <string name="megabytes"><xliff:g id="COUNT">%s</xliff:g> MB</string>
+    <string name="cancel">取消</string>
+    <string name="decode_done">压缩完成</string>
+    <string name="decode_fail">压缩失败</string>
+    <string name="after_convert">转换后</string>
+    <string name="reconvert">重新压缩</string>
+    <string name="saved_path">保存路径:</string>
+    <string name="saved_size">最终大小:</string>
+
+</resources>

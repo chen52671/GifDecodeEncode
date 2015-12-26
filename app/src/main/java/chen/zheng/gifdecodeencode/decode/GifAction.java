@@ -1,5 +1,7 @@
 package chen.zheng.gifdecodeencode.decode;
 
+import android.graphics.Bitmap;
+
 public interface GifAction {
 
     /**
@@ -8,5 +10,5 @@ public interface GifAction {
      * @param parseStatus 解码是否成功，成功会为true
      * @param frameIndex  当前解码的第几帧，当全部解码成功后，这里为-1
      */
-    public void parseOk(boolean parseStatus, int frameIndex);
+    public void parseOk(boolean parseStatus, int frameIndex ,Bitmap bitmap);
 }

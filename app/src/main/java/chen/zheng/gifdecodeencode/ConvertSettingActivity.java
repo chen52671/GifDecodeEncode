@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -37,6 +39,9 @@ public class ConvertSettingActivity extends Activity implements GifParseCallback
     private static final int PREFER_WIDTH_HEIGHT = 80;
     private static final int PREFER_QUALITY = 70;
     private static final int PREFER_FRAME_SAMPLE = 20;
+    private static final int CONVERT_RESULT = 11;
+    public static final String OLD_PATH = "old_path";
+    public static final String NEW_PATH = "new_path";
 
     private String mFilePath;
     private Handler mHandler = new SettingHandler();
@@ -62,6 +67,7 @@ public class ConvertSettingActivity extends Activity implements GifParseCallback
     private float mWidthHeightParam = (float)PREFER_WIDTH_HEIGHT/100;
     private float mQualityParam = (float)PREFER_QUALITY/100;
     private int mFrameSampleParam = PREFER_FRAME_SAMPLE/10;
+    private int mFrameCount;
 
 
     @Override
@@ -94,7 +100,8 @@ public class ConvertSettingActivity extends Activity implements GifParseCallback
                 intent.putExtra(ConvertProgressActivity.GIF_SIZE, mWidthHeightParam);
                 intent.putExtra(ConvertProgressActivity.GIF_QUALITY, mQualityParam);
                 intent.putExtra(ConvertProgressActivity.GIF_FRAME_SAMPLE, mFrameSampleParam);
-                startActivity(intent);
+                intent.putExtra(ConvertProgressActivity.GIF_TOTAL_FRAME_COUNT, mFrameCount);
+                startActivityForResult(intent, CONVERT_RESULT);
             }
         });
     }
@@ -104,6 +111,26 @@ public class ConvertSettingActivity extends Activity implements GifParseCallback
         super.onResume();
         setGifFilePath(mFilePath);
         analyseGif(mFilePath);
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case CONVERT_RESULT:
+                if(resultCode==RESULT_OK){ //转换成功，关闭本activity，返回mainactivity
+                    if(data!=null){
+                        data.putExtra(OLD_PATH,mFilePath);
+                    }
+                    setResult(RESULT_OK,data);
+                    finish();
+                } else if(resultCode==RESULT_CANCELED){//转换取消，留在本activity
+
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     private void setupViews() {
@@ -126,7 +153,7 @@ public class ConvertSettingActivity extends Activity implements GifParseCallback
 
     private void analyseGif(String filePath) {
         mLocalGifPath.setText(mFilePath);
-        String fileSize = CommonUtils.getFileSize(this, filePath);
+        String fileSize = CommonUtils.getReadableFileSize(this, filePath);
         mLocalGifSize.setText(fileSize);
         if (!TextUtils.isEmpty(filePath)) {
             File gifFile = new File(filePath);
@@ -218,12 +245,18 @@ public class ConvertSettingActivity extends Activity implements GifParseCallback
             int duration = bundle.getInt(GIF_INFO_DURATION);
             int width = bundle.getInt(GIF_INFO_WIDTH);
             int height = bundle.getInt(GIF_INFO_HEIGHT);
-            int frameCount = bundle.getInt(GIF_INFO_FRAMECOUNT);
+            mFrameCount = bundle.getInt(GIF_INFO_FRAMECOUNT);
 
             float durationInSecond = (float) duration / 1000;
             mLocalGifDuration.setText(String.valueOf(durationInSecond));
             mLocalGifWidthHeight.setText(String.valueOf(width) + " X " + String.valueOf(height));
-            mLocalGifFrameCount.setText(String.valueOf(frameCount));
+            mLocalGifFrameCount.setText(String.valueOf(mFrameCount));
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }

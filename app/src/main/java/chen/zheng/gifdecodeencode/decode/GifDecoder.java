@@ -1,12 +1,14 @@
 package chen.zheng.gifdecodeencode.decode;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 
 import chen.zheng.gifdecodeencode.Utils.BitmapUtils;
+import chen.zheng.gifdecodeencode.Utils.CommonUtils;
 import chen.zheng.gifdecodeencode.encode.GifEncoder;
 
 
@@ -31,7 +33,7 @@ public class GifDecoder extends Thread {
     private GifParseCallback mParseCallback;
     private String mOutputFilePath;
     private GifEncoder mGifEncoder;
-    private int mFrame;
+    private int mFrameSample;
     private float mQulity;
     private float mScale;
     private boolean mShouldCovert = false;
@@ -118,7 +120,7 @@ public class GifDecoder extends Thread {
         mShouldCovert = true;
         mScale = scale;
         mQulity = quality;
-        mFrame = frame;
+        mFrameSample = frame;
         mOutputFilePath = newFilePath;
         mGifEncoder = new GifEncoder();
         in = is;
@@ -139,6 +141,14 @@ public class GifDecoder extends Thread {
             readByte();
         }
     }
+
+    private void doCleanJob() {
+        if (mOutputFilePath != null && mGifEncoder != null) {
+            mGifEncoder.finish();
+            CommonUtils.deleteFile(mOutputFilePath);
+        }
+    }
+
 
     private void parseGif() {
         init();
@@ -436,10 +446,10 @@ public class GifDecoder extends Thread {
                 readContents(false);
                 if (frameCount < 0) {
                     status = STATUS_FORMAT_ERROR;
-                    action.parseOk(false, -1);
+                    action.parseOk(false, -1, null);
                 } else {
                     status = STATUS_FINISH;
-                    action.parseOk(true, -1);
+                    action.parseOk(true, -1, null);
                     mGifEncoder.finish();
                 }
             }
@@ -451,7 +461,7 @@ public class GifDecoder extends Thread {
 
         } else {
             status = STATUS_OPEN_ERROR;
-            action.parseOk(false, -1);
+            action.parseOk(false, -1, null);
         }
         return status;
     }
@@ -642,6 +652,12 @@ public class GifDecoder extends Thread {
         // read GIF file content blocks
         boolean done = false;
         while (!(done || err())) {
+            Thread.yield(); // let another thread have some time perhaps to stop this one.
+            if (Thread.currentThread().isInterrupted()) {
+                doCleanJob();
+                frameCount = -1;
+                return;
+            }
             int code = read();
             switch (code) {
                 case 0x2C: // image separator
@@ -722,9 +738,9 @@ public class GifDecoder extends Thread {
         }
         frameCount++;
         // create new image to receive frame data
-       // image = Bitmap.createBitmap(width, height, Config.ARGB_4444);
+        // image = Bitmap.createBitmap(width, height, Config.ARGB_4444);
         // createImage(width, height);
-       // setPixels(); // transfer pixel data to image
+        // setPixels(); // transfer pixel data to image
 /*        if (gifFrame == null) {
             gifFrame = new GifFrame(image, delay);
             currentFrame = gifFrame;
@@ -833,10 +849,9 @@ public class GifDecoder extends Thread {
             act[transIndex] = save;
         }
         resetFrame();
-        action.parseOk(true, frameCount);
         /*根据质量和大小修改image,根据frame修改delay*/
         mFrameCount++;
-        if (mFrame == mFrameCount) { //该帧进行编码
+        if (mFrameSample == mFrameCount) { //该帧进行编码
             /*将编码试图放在多线程中去做，Callable
             * 最后再将及结果组合*/
             mGifEncoder.setDelay(mDelay);
@@ -845,6 +860,7 @@ public class GifDecoder extends Thread {
             mGifEncoder.addFrame(image);
             mFrameCount = 0;
             mDelay = 0;
+            action.parseOk(true, frameCount, image);
         }
     }
 
